@@ -1,8 +1,8 @@
 package de.fridolin1.lecs4k
 
-import de.fridolin1.idMap.DynamicID
+import de.fridolin1.idCollection.MultiIDHolder
 
-abstract class EntitySystem: DynamicID() {
+abstract class EntitySystem: MultiIDHolder() {
     lateinit var engine: Lecs4kEngine
         private set
 

@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("de.fridolin1:IdMap:0.1-SNAPSHOT")
+    implementation("de.fridolin1:IdCollection:0.1-SNAPSHOT")
 }
 
 kotlin {

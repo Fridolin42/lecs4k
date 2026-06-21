@@ -1,12 +1,12 @@
 package de.fridolin1.lecs4k
 
-import de.fridolin1.idMap.DynamicID
-import de.fridolin1.idMap.DynamicIdCollection
+import de.fridolin1.idCollection.MultiIDHolder
+import de.fridolin1.idCollection.IDHolderCollection
 import de.fridolin1.lecs4k.listener.FamilyListener
 import kotlin.reflect.KClass
 
-class Family : DynamicID {
-    private val entities = DynamicIdCollection<Entity>()
+class Family : MultiIDHolder {
+    private val entities = IDHolderCollection<Entity>()
     val immutableEntityCollection = ImmutableCollection(entities)
     val listeners = ArrayList<FamilyListener>()
 
