@@ -25,7 +25,8 @@ class Entity : DynamicID() {
         engines.forEach { engine -> engine.listeners.forEach { listener -> listener.componentRemove(this, component, engine) } }
     }
 
-    fun getComponent(componentClass: KClass<out EntityComponent>): EntityComponent? = components[EntityComponent.getComponentID(componentClass)]
+    @Suppress("UNCHECKED_CAST")
+    fun <T : EntityComponent> getComponent(componentClass: KClass<T>): T? = components[EntityComponent.getComponentID(componentClass)] as T?
 
     fun containsComponent(componentClass: KClass<out EntityComponent>): Boolean = components.containsID(EntityComponent.getComponentID(componentClass))
 

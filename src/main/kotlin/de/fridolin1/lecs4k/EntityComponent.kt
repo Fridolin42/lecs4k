@@ -6,7 +6,7 @@ import kotlin.concurrent.atomics.fetchAndIncrement
 import kotlin.reflect.KClass
 
 @OptIn(ExperimentalAtomicApi::class)
-class EntityComponent {
+abstract class EntityComponent {
     companion object {
         private val idCounter = AtomicInt(0)
         private val idMap = HashMap<KClass<out EntityComponent>, Int>()

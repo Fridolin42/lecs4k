@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.3.21"
+    `java-library`
+    `maven-publish`
 }
 
 group = "de.fridolin1"
@@ -19,6 +21,19 @@ kotlin {
     jvmToolchain(21)
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks.test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }

@@ -11,15 +11,15 @@ class Family : DynamicID {
     val listeners = ArrayList<FamilyListener>()
 
     val engine: Lecs4kEngine
-    val all: List<KClass<EntityComponent>>
-    val one: List<KClass<EntityComponent>>
-    val none: List<KClass<EntityComponent>>
+    val all: List<KClass<out EntityComponent>>
+    val one: List<KClass<out EntityComponent>>
+    val none: List<KClass<out EntityComponent>>
 
     internal constructor(
         engine: Lecs4kEngine,
-        all: List<KClass<EntityComponent>>,
-        one: List<KClass<EntityComponent>>,
-        none: List<KClass<EntityComponent>>
+        all: List<KClass<out EntityComponent>>,
+        one: List<KClass<out EntityComponent>>,
+        none: List<KClass<out EntityComponent>>
     ) {
         this.engine = engine
         this.all = all
@@ -28,19 +28,24 @@ class Family : DynamicID {
     }
 
     fun entityUpdate(entity: Entity) {
-        val status = all.all { entity.containsComponent(it) }
-                && one.count { entity.containsComponent(it) } > 0
-                && none.none { entity.containsComponent(it) }
-        if (status && !entities.contains(entity)) {
+        val fitInFamily = (all.isEmpty() || all.all { entity.containsComponent(it) })
+                && (one.isEmpty() || one.count { entity.containsComponent(it) } > 0)
+                && (none.isEmpty() || none.none { entity.containsComponent(it) })
+        val isInFamily = entities.contains(entity)
+        if (fitInFamily && !isInFamily) {
+            entity.families.add(this)
             entities.add(entity)
             listeners.forEach { it.entityAdded(entity, engine) }
-        } else if (!status && entities.contains(entity)) {
+        } else if (!fitInFamily && isInFamily) {
             entities.remove(entity)
+            entity.families.remove(this)
             listeners.forEach { it.entityRemoved(entity, engine) }
         }
     }
 
     internal fun removeEntity(entity: Entity) {
         entities.remove(entity)
+        entity.families.remove(this)
+        listeners.forEach { it.entityRemoved(entity, engine) }
     }
 }

@@ -7,12 +7,13 @@ import kotlin.reflect.KClass
 
 class Lecs4kEngine : DynamicID() {
     private val entities = DynamicIdCollection<Entity>()
+    val immutableEntityCollection = ImmutableCollection(entities)
     private val families = DynamicIdCollection<Family>()
     private val systems = DynamicIdCollection<EntitySystem>()
 
     val listeners = ArrayList<EntityListener>()
 
-    fun family(all: List<KClass<EntityComponent>>, one: List<KClass<EntityComponent>>, none: List<KClass<EntityComponent>>): Family {
+    fun family(all: List<KClass<out EntityComponent>> = listOf(), one: List<KClass<out EntityComponent>> = listOf(), none: List<KClass<out EntityComponent>> = listOf()): Family {
         if (entities.isNotEmpty()) throw IllegalStateException("There mustn't exists any entity in this engine to create a family")
         val family = Family(this, all, one, none)
         families.add(family)
@@ -31,7 +32,7 @@ class Lecs4kEngine : DynamicID() {
         system.setEngine(this)
     }
 
-    fun createEntity(entity: Entity): Entity {
+    fun createEntity(): Entity {
         val entity = Entity()
         addEntity(entity)
         return entity
@@ -41,12 +42,14 @@ class Lecs4kEngine : DynamicID() {
         entity.engines.add(this)
         entities.add(entity)
         handleEntityUpdate(entity)
+        listeners.forEach { it.entityAdded(entity, this) }
     }
 
     fun removeEntity(entity: Entity) {
         entity.engines.remove(this)
         entities.remove(entity)
         removeEntityFromFamilies(entity)
+        listeners.forEach { it.entityRemoved(entity, this) }
     }
 
     internal fun handleEntityUpdate(entity: Entity) {
