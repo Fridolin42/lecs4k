@@ -20,6 +20,9 @@ Entity component system (<b>ecs</b>) for Kotlin and Java
 ```kotlin
 repositories {
     mavenCentral()
+    maven {
+      url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
 }
 
 dependencies {
@@ -77,7 +80,7 @@ Design your EntitySystem:
 ```kotlin
 class MovementSystem: EntitySystem() {
     lateinit var entities: Collection<Entity>
-    
+
     override fun addedToEngine() {
         entities = engine.family(listOf(PositionComponent::class, VelocityComponent::class)).immutableEntityCollection
     }
@@ -90,6 +93,7 @@ class MovementSystem: EntitySystem() {
             position.y += velocity.vy * delta
         }
     }
+}
 ```
 
 The engine.family() takes up to 3 parameters. Every entity, that matches these criteria are automatically in this family:

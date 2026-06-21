@@ -8,8 +8,10 @@ group = "de.fridolin1"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
