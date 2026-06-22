@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.fridolin1"
-version = "0.3-SNAPSHOT"
+version = "0.4-SNAPSHOT"
 
 repositories {
     maven {
@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    api("de.fridolin1:IdCollection:0.2-SNAPSHOT")
+    api("de.fridolin1:IdCollection:0.3-SNAPSHOT")
 }
 
 kotlin {

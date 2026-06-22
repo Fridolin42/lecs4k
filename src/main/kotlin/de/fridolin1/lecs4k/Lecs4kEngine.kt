@@ -59,6 +59,6 @@ class Lecs4kEngine : MultiIDHolder() {
     }
 
     private fun removeEntityFromFamilies(entity: Entity) {
-        for (family in entity.families) family.removeEntity(entity)
+        while (entity.families.isNotEmpty()) entity.families.get(0).removeEntity(entity)
     }
 }
