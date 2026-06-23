@@ -10,13 +10,13 @@ class Entity : MultiIDHolder() {
     internal val families = IDHolderCollection<Family>()
     internal val engines = IDHolderCollection<Lecs4kEngine>()
 
-    fun addComponent(component: EntityComponent) {
+    fun add(component: EntityComponent) {
         engines.forEach { engine -> engine.listeners.forEach { listener -> listener.componentAdd(this, component, engine) } }
         components[component.componentID] = component
         update()
     }
 
-    fun removeComponent(componentClass: KClass<out EntityComponent>) {
+    fun remove(componentClass: KClass<out EntityComponent>) {
         val compID = EntityComponent.getComponentID(componentClass)
         val component = components[compID]
         components.remove(compID)
@@ -26,9 +26,9 @@ class Entity : MultiIDHolder() {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : EntityComponent> getComponent(componentClass: KClass<T>): T? = components[EntityComponent.getComponentID(componentClass)] as T?
+    fun <T : EntityComponent> get(componentClass: KClass<T>): T? = components[EntityComponent.getComponentID(componentClass)] as T?
 
-    fun containsComponent(componentClass: KClass<out EntityComponent>): Boolean = components.containsID(EntityComponent.getComponentID(componentClass))
+    fun contains(componentClass: KClass<out EntityComponent>): Boolean = components.containsID(EntityComponent.getComponentID(componentClass))
 
     private fun update() = engines.forEach { it.handleEntityUpdate(this) }
 }

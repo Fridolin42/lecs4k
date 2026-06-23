@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.fridolin1"
-version = "0.4-SNAPSHOT"
+version = "0.5-SNAPSHOT"
 
 repositories {
     maven {

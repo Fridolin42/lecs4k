@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    implementation("de.fridolin1:lecs4k:0.4-SNAPSHOT")
+    implementation("de.fridolin1:lecs4k:0.5-SNAPSHOT")
 }
 ```
 
@@ -54,15 +54,15 @@ data class PositionComponent(val x: Float, val y: Float): EntityComponent()
 
 ```kotlin
 //add the component
-entity.addComponent(PositionComponent(4f, 2f))
+entity.add(PositionComponent(4f, 2f))
 
 //get the component
-val position = entity.getComponent(PositionComponent::class)
+val position = entity.get(PositionComponent::class)
 println("Position: ${position.x}|${position.y}") //would print "Position: 4.0|2.0"
 
 //remove a component
-entity.removeComponent(PositionComponent::class)
-println(entity.getComponent(PositionComponent::class)) //would print "null"
+entity.remove(PositionComponent::class)
+println(entity.get(PositionComponent::class)) //would print "null"
 ```
 
 
@@ -87,8 +87,8 @@ class MovementSystem: EntitySystem() {
 
     override fun update(delta: Float) {
         for (entity in entities) {
-            val velocity = entity.getComponent(VelocityComponent::class)!!
-            val position = entity.getComponent(PositionComponent::class)!!
+            val velocity = entity.get(VelocityComponent::class)!!
+            val position = entity.get(PositionComponent::class)!!
             position.x += velocity.vx * delta
             position.y += velocity.vy * delta
         }
@@ -115,8 +115,8 @@ engine.addSystem(MovementSystem())
 
 //create your entities and add the components
 val entity = engine.createEntity()
-entity.addComponent(PositionComponent(4f, 2f))
-entity.addComponent(VelocityComponent(0.75f, 0.25f))
+entity.add(PositionComponent(4f, 2f))
+entity.add(VelocityComponent(0.75f, 0.25f))
 
 //let the engine process
 //the delta parameter is the time in seconds since the last update.
