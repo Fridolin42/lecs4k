@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    implementation("de.fridolin1:lecs4k:0.6-SNAPSHOT")
+    implementation("de.fridolin1:lecs4k:0.7-SNAPSHOT")
 }
 ```
 

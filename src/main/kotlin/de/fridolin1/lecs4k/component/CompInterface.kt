@@ -10,11 +10,7 @@ interface CompInterface {
     companion object {
         private val idCounter = AtomicInt(0)
         private val idMap = HashMap<KClass<out CompInterface>, Int>()
-        internal fun getComponentID(c: KClass<out CompInterface>): Int {
-            val id = idMap.getOrPut(c) { idCounter.fetchAndIncrement() }
-            println("$c: $id")
-            return id
-        }
+        internal fun getComponentID(c: KClass<out CompInterface>): Int = idMap.getOrPut(c) { idCounter.fetchAndIncrement() }
     }
 
     val componentID: Int
