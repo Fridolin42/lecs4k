@@ -106,7 +106,7 @@ class MovementSystem: EntitySystem() {
     lateinit var entities: Collection<Entity>
 
     override fun addedToEngine() {
-        entities = engine.family(listOf(PositionComponent::class, VelocityComponent::class)).immutableEntityCollection
+        entities = engine.family().all(PositionComponent::class, VelocityComponent::class).get().immutableEntityCollection
     }
 
     override fun update(delta: Float) {
@@ -120,7 +120,7 @@ class MovementSystem: EntitySystem() {
 }
 ```
 
-The engine.family() takes up to 3 parameters. Every entity, that matches these criteria are automatically in this family:
+There are 3 methods on engine.family() to filter you entities. Every entity, that matches these criteria are automatically in this family:
 
 1. all: The entity must have all the specified components
 2. one: The entity must have at least on of these components
@@ -205,7 +205,7 @@ class FamilyUpdateHandler: FamilyListener() {
 Register the listener:
 
 ```kotlin
-val family = engine.family(listOf(PositionComponent::class, VelocityComponent::class))
+val family = engine.family().all(PositionComponent::class, VelocityComponent::class).get()
 family.listeners.add(FamilyUpdateHandler()) 
 ```
 
