@@ -1,5 +1,7 @@
 package de.fridolin1.lecs4k
 
+import de.fridolin1.lecs4k.component.EntityComponent
+
 data class PosTestComponent(var x: Float, var y: Float): EntityComponent()
 
 data class VeloTestComponent(var vx: Float, var vy: Float): EntityComponent()

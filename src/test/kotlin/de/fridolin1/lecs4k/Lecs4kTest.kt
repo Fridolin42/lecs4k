@@ -1,5 +1,6 @@
 package de.fridolin1.lecs4k
 
+import de.fridolin1.lecs4k.component.CompInterface
 import de.fridolin1.lecs4k.listener.EntityListener
 import de.fridolin1.lecs4k.listener.FamilyListener
 import org.junit.jupiter.api.BeforeEach
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test
 import kotlin.math.abs
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class Lecs4kTest {
@@ -55,11 +57,11 @@ class Lecs4kTest {
         var componentRemoveCounter = 0
 
         val entityListener = object : EntityListener() {
-            override fun componentAdd(entity: Entity, component: EntityComponent, engine: Lecs4kEngine) {
+            override fun componentAdd(entity: Entity, component: CompInterface, engine: Lecs4kEngine) {
                 componentAddCounter++
             }
 
-            override fun componentRemove(entity: Entity, component: EntityComponent, engine: Lecs4kEngine) {
+            override fun componentRemove(entity: Entity, component: CompInterface, engine: Lecs4kEngine) {
                 componentRemoveCounter++
             }
         }
@@ -181,5 +183,32 @@ class Lecs4kTest {
         assertTrue(abs(5f - pos1.y) < 0.01)
         assertTrue(abs(-4.8f - pos2.x) < 0.01)
         assertTrue(abs(-6.5f - pos2.y) < 0.01)
+    }
+
+    @Test
+    fun tagTest() {
+        val entity1 = engine.createEntity()
+        val entity2 = engine.createEntity()
+        val entity3 = engine.createEntity()
+
+        entity1.add(LivingTestTag.LIVING)
+        entity3.add(LivingTestTag.DYING)
+
+        println(LivingTestTag.LIVING.componentID)
+        println(CompInterface.getComponentID(LivingTestTag::class))
+
+        println(LivingTestTag.LIVING::class)
+        println(LivingTestTag::class)
+
+        assertTrue(entity1.contains(LivingTestTag::class))
+        assertFalse(entity2.contains(LivingTestTag::class))
+        assertTrue(entity3.contains(LivingTestTag::class))
+
+        assertEquals(LivingTestTag.LIVING, entity1.get(LivingTestTag::class)!!)
+        assertNull(entity2.get(LivingTestTag::class))
+        assertEquals(LivingTestTag.DYING, entity3.get(LivingTestTag::class)!!)
+
+        entity3.add(LivingTestTag.DEAD)
+        assertEquals(LivingTestTag.DEAD, entity3.get(LivingTestTag::class)!!)
     }
 }

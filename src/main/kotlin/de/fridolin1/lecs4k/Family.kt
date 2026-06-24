@@ -1,7 +1,8 @@
 package de.fridolin1.lecs4k
 
-import de.fridolin1.idCollection.MultiIDHolder
 import de.fridolin1.idCollection.IDHolderCollection
+import de.fridolin1.idCollection.MultiIDHolder
+import de.fridolin1.lecs4k.component.CompInterface
 import de.fridolin1.lecs4k.listener.FamilyListener
 import kotlin.reflect.KClass
 
@@ -11,15 +12,15 @@ class Family : MultiIDHolder {
     private val listeners = ArrayList<FamilyListener>()
 
     val engine: Lecs4kEngine
-    val all: List<KClass<out EntityComponent>>
-    val one: List<KClass<out EntityComponent>>
-    val none: List<KClass<out EntityComponent>>
+    val all: List<KClass<out CompInterface>>
+    val one: List<KClass<out CompInterface>>
+    val none: List<KClass<out CompInterface>>
 
     internal constructor(
         engine: Lecs4kEngine,
-        all: List<KClass<out EntityComponent>>,
-        one: List<KClass<out EntityComponent>>,
-        none: List<KClass<out EntityComponent>>
+        all: List<KClass<out CompInterface>>,
+        one: List<KClass<out CompInterface>>,
+        none: List<KClass<out CompInterface>>
     ) {
         this.engine = engine
         this.all = all

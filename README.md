@@ -6,6 +6,7 @@ Entity component system (<b>ecs</b>) for Kotlin and Java
 - [Kotlin Tutorial](#tutorial-kotlin)
   - [create entities](#create-the-engine-and-an-entity)
   - [add components to your entity](#entitycomponents)
+    - [add tags to your entity](#entitytags)
   - [how to process the entities](#entitysystems-and-families)
   - [listeners and life cycle](#listeners-life-cycle)
     - [entity listener](#for-entities)
@@ -26,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    implementation("de.fridolin1:lecs4k:0.5-SNAPSHOT")
+    implementation("de.fridolin1:lecs4k:0.6-SNAPSHOT")
 }
 ```
 
@@ -63,6 +64,29 @@ println("Position: ${position.x}|${position.y}") //would print "Position: 4.0|2.
 //remove a component
 entity.remove(PositionComponent::class)
 println(entity.get(PositionComponent::class)) //would print "null"
+```
+
+
+#### EntityTags
+
+A Tag are a special kind of component. It's a short form of a normal component containing an enum.
+
+To define your tags:
+
+```kotlin
+enum class LivingTag : CompInterface by entityTag<LivingTestTag>() {
+    LIVING, DEAD, DYING;
+}
+```
+
+You can use your tag like a normal component. But be aware that you can't have 2 tags of the same class.
+
+```kotlin
+entity.add(LivingTestTag.LIVING)
+println(entity.contains(LivingTag::class)) //prints "true"
+println(entity.get(LivingTag::class)) //prints "LIVING"
+entity.add(LivingTestTag.DEAD)
+println(entity.get(LivingTag::class)) //prints "DEAD"
 ```
 
 
