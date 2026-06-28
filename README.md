@@ -106,7 +106,7 @@ class MovementSystem: EntitySystem() {
     lateinit var entities: Collection<Entity>
 
     override fun addedToEngine() {
-        entities = engine.family().all(PositionComponent::class, VelocityComponent::class).get().immutableEntityCollection
+        entities = engine.family().all(PositionComponent::class, VelocityComponent::class).get().entities
     }
 
     override fun update(delta: Float) {
